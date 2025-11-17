@@ -26,9 +26,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shortener',
+     'rest_framework',          # Add this
+    'corsheaders',             # Add this
+    
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', 
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Add this for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,7 +62,22 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'urlshortener.wsgi:application'
+# Add CORS settings (allow your frontend to call the API)
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React dev server
+    "http://127.0.0.1:3000",
+    "https://your-frontend-domain.com",  # Your actual frontend domain
+]
 
+# Or allow all origins (for development)
+CORS_ALLOW_ALL_ORIGINS = True  # Only for development!
+
+# REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
 # Database
 DATABASES = {
     'default': {
